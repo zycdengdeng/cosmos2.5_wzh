@@ -13,8 +13,8 @@ set -e
 # Configuration
 # ============================================================================
 
-# Number of GPUs to use
-export NUM_GPUS=2
+# Number of GPUs to use (REQUIRED: 8 GPUs for multiview with 7 cameras)
+export NUM_GPUS=8
 
 # Output directory for checkpoints
 export IMAGINAIRE_OUTPUT_ROOT="${IMAGINAIRE_OUTPUT_ROOT:-/tmp/imaginaire4-output}"

@@ -83,7 +83,7 @@ rgbcloud_posttrain = dict(
         ),
     ),
     model_parallel=dict(
-        context_parallel_size=2,  # Must match number of GPUs (set to 2, 4, or 8)
+        context_parallel_size=8,  # REQUIRED: Must be > n_views (7 cameras), minimum 8 for multiview
     ),
 )
 
@@ -160,7 +160,7 @@ depthsparse_posttrain = dict(
         ),
     ),
     model_parallel=dict(
-        context_parallel_size=2,  # Must match number of GPUs (set to 2, 4, or 8)
+        context_parallel_size=8,  # REQUIRED: Must be > n_views (7 cameras), minimum 8 for multiview
     ),
 )
 

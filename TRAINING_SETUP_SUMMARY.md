@@ -104,7 +104,7 @@ defaults:
   - override /conditioner: custom_multiview_vis_conditioner
 
 model.config.hint_keys: "vis"  # Train vis control branch
-context_parallel_size: 2       # Must match NUM_GPUS
+context_parallel_size: 8       # MUST be > n_views (7 cameras)
 ```
 
 **depthsparse_posttrain:**
@@ -115,14 +115,14 @@ defaults:
   - override /conditioner: custom_multiview_depth_conditioner
 
 model.config.hint_keys: "depth"  # Train depth control branch
-context_parallel_size: 2         # Must match NUM_GPUS
+context_parallel_size: 8         # MUST be > n_views (7 cameras)
 ```
 
 ## Training Configuration
 
 ### GPU Settings
-- **NUM_GPUS**: 2 (using 2 out of 8 available GPUs)
-- **context_parallel_size**: 2 (must match NUM_GPUS)
+- **NUM_GPUS**: 8 (REQUIRED for 7-camera multiview training)
+- **context_parallel_size**: 8 (MUST be > n_views, where n_views=7 for 7 cameras)
 
 ### Training Parameters
 - **Batch size**: 1 per GPU
