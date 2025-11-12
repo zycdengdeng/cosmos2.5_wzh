@@ -14,7 +14,7 @@ set -e
 # ============================================================================
 
 # Number of GPUs to use
-export NUM_GPUS=8
+export NUM_GPUS=2
 
 # Output directory for checkpoints
 export IMAGINAIRE_OUTPUT_ROOT="${IMAGINAIRE_OUTPUT_ROOT:-/tmp/imaginaire4-output}"
