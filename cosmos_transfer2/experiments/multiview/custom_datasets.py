@@ -38,7 +38,7 @@ def get_rgbcloud_multiview_dataset(is_train=True):
 
     dataset = L(MultiviewTransferDataset)(
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/RGBCloud",
-        hint_key="control_input_vis",  # Using vis control for RGB colored point cloud
+        hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
         state_t=8,
         num_frames=29,
@@ -87,7 +87,7 @@ def get_depthsparse_multiview_dataset(is_train=True):
 
     dataset = L(MultiviewTransferDataset)(
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/depthsparse",
-        hint_key="control_input_depth",  # Using depth control for depth sparse point cloud
+        hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
         state_t=8,
         num_frames=29,
