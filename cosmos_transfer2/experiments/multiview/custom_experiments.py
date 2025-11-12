@@ -18,6 +18,7 @@ rgbcloud_posttrain = dict(
     defaults=[
         f"/experiment/{DEFAULT_CHECKPOINT.experiment}",
         {"override /data_train": "rgbcloud_multiview_train"},
+        {"override /conditioner": "custom_multiview_vis_conditioner"},
     ],
     job=dict(
         project="cosmos_transfer_v2p5",
@@ -40,7 +41,7 @@ rgbcloud_posttrain = dict(
     model=dict(
         config=dict(
             base_load_from=None,
-            hint_keys="hdmap_bbox",  # Multiview only supports hdmap_bbox control type
+            hint_keys="vis",  # Training vis control branch with RGB colored point cloud
         ),
     ),
     trainer=dict(
@@ -94,6 +95,7 @@ depthsparse_posttrain = dict(
     defaults=[
         f"/experiment/{DEFAULT_CHECKPOINT.experiment}",
         {"override /data_train": "depthsparse_multiview_train"},
+        {"override /conditioner": "custom_multiview_depth_conditioner"},
     ],
     job=dict(
         project="cosmos_transfer_v2p5",
@@ -116,7 +118,7 @@ depthsparse_posttrain = dict(
     model=dict(
         config=dict(
             base_load_from=None,
-            hint_keys="hdmap_bbox",  # Multiview only supports hdmap_bbox control type
+            hint_keys="depth",  # Training depth control branch with depth sparse point cloud
         ),
     ),
     trainer=dict(
