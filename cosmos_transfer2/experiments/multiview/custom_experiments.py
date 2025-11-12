@@ -40,7 +40,7 @@ rgbcloud_posttrain = dict(
     model=dict(
         config=dict(
             base_load_from=None,
-            hint_keys="vis",  # Using vis control for RGB colored point cloud
+            hint_keys="hdmap_bbox",  # Multiview only supports hdmap_bbox control type
         ),
     ),
     trainer=dict(
@@ -116,7 +116,7 @@ depthsparse_posttrain = dict(
     model=dict(
         config=dict(
             base_load_from=None,
-            hint_keys="depth",  # Using depth control for depth sparse point cloud
+            hint_keys="hdmap_bbox",  # Multiview only supports hdmap_bbox control type
         ),
     ),
     trainer=dict(
