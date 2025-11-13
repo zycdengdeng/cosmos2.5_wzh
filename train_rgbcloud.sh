@@ -63,8 +63,7 @@ torchrun \
     -m scripts.train \
     --config=cosmos_transfer2/_src/transfer2_multiview/configs/vid2vid_transfer/config.py \
     -- \
-    experiment=${EXPERIMENT_NAME} \
-    job.wandb_mode=disabled
+    experiment=${EXPERIMENT_NAME}
 
 # ============================================================================
 # Post-training Information
