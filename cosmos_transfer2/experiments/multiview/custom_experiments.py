@@ -47,7 +47,7 @@ rgbcloud_posttrain = dict(
     ),
     trainer=dict(
         logging_iter=50,
-        max_iter=10_000,  # Adjust based on your dataset size
+        max_iter=50_000,  # Increased for 5-scene dataset (5 scenes × 10k iters per scene)
         validation_iter=500,
         run_validation=False,
         callbacks=dict(
@@ -125,7 +125,7 @@ depthsparse_posttrain = dict(
     ),
     trainer=dict(
         logging_iter=50,
-        max_iter=10_000,  # Adjust based on your dataset size
+        max_iter=50_000,  # Increased for 5-scene dataset (5 scenes × 10k iters per scene)
         validation_iter=500,
         run_validation=False,
         callbacks=dict(
