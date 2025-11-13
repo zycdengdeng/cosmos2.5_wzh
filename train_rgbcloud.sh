@@ -17,7 +17,7 @@ set -e
 export NUM_GPUS=8
 
 # Output directory for checkpoints
-export IMAGINAIRE_OUTPUT_ROOT="${IMAGINAIRE_OUTPUT_ROOT:-/tmp/imaginaire4-output}"
+export IMAGINAIRE_OUTPUT_ROOT="${IMAGINAIRE_OUTPUT_ROOT:-/mnt/zihanw/cosmos-transfer2.5/training_zihanw/output_zihanw}"
 
 # HuggingFace cache directory (optional, set if needed)
 # export HF_HOME=/path/to/your/hf/cache
