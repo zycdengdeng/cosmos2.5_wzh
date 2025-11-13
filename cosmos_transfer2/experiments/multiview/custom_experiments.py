@@ -24,6 +24,7 @@ rgbcloud_posttrain = dict(
         project="cosmos_transfer_v2p5",
         group="custom_datasets",
         name="rgbcloud_vis_control",
+        wandb_mode="online",  # Enable wandb logging
     ),
     checkpoint=dict(
         save_iter=500,  # Save checkpoint every 500 iterations
@@ -101,6 +102,7 @@ depthsparse_posttrain = dict(
         project="cosmos_transfer_v2p5",
         group="custom_datasets",
         name="depthsparse_depth_control",
+        wandb_mode="online",  # Enable wandb logging
     ),
     checkpoint=dict(
         save_iter=500,  # Save checkpoint every 500 iterations
