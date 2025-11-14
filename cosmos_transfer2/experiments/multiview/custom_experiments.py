@@ -43,6 +43,7 @@ rgbcloud_posttrain = dict(
         config=dict(
             base_load_from=None,
             hint_keys="vis",  # Training vis control branch with RGB colored point cloud
+            high_sigma_ratio=0.0,  # DISABLED high sigma sampling to prevent loss=0
         ),
     ),
     trainer=dict(
@@ -119,6 +120,7 @@ depthsparse_posttrain = dict(
         config=dict(
             base_load_from=None,
             hint_keys="depth",  # Training depth control branch with depth sparse point cloud
+            high_sigma_ratio=0.0,  # DISABLED high sigma sampling to prevent loss=0
         ),
     ),
     trainer=dict(
