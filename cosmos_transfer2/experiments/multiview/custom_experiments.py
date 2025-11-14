@@ -47,7 +47,7 @@ rgbcloud_posttrain = dict(
         ),
     ),
     trainer=dict(
-        logging_iter=50,
+        logging_iter=10,  # Log every 10 iterations for better monitoring
         max_iter=10_000,  # Reduced to 10k for faster completion (~4 days)
         validation_iter=500,
         run_validation=False,
@@ -56,7 +56,7 @@ rgbcloud_posttrain = dict(
                 save_s3=False,
             ),
             iter_speed=dict(
-                hit_thres=50,  # REDUCED from 200 to 50 to avoid long warmup
+                hit_thres=10,  # Match logging_iter for consistent log frequency
                 save_s3=False,
             ),
             device_monitor=dict(
@@ -126,7 +126,7 @@ depthsparse_posttrain = dict(
         ),
     ),
     trainer=dict(
-        logging_iter=50,
+        logging_iter=10,  # Log every 10 iterations for better monitoring
         max_iter=10_000,  # Reduced to 10k for faster completion (~4 days)
         validation_iter=500,
         run_validation=False,
@@ -135,7 +135,7 @@ depthsparse_posttrain = dict(
                 save_s3=False,
             ),
             iter_speed=dict(
-                hit_thres=50,  # REDUCED from 200 to 50 to avoid long warmup
+                hit_thres=10,  # Match logging_iter for consistent log frequency
                 save_s3=False,
             ),
             device_monitor=dict(
