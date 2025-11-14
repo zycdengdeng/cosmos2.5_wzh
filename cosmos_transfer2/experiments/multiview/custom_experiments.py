@@ -63,10 +63,12 @@ rgbcloud_posttrain = dict(
                 save_s3=False,
             ),
             every_n_sample_reg=dict(
-                enabled=False,  # DISABLED to prevent OOM during sampling
+                every_n=999999,  # Effectively disabled by setting to very large number
+                save_s3=False,
             ),
             every_n_sample_ema=dict(
-                enabled=False,  # DISABLED to prevent OOM during sampling
+                every_n=999999,  # Effectively disabled by setting to very large number
+                save_s3=False,
             ),
             wandb=dict(
                 save_s3=False,
@@ -140,10 +142,12 @@ depthsparse_posttrain = dict(
                 save_s3=False,
             ),
             every_n_sample_reg=dict(
-                enabled=False,  # DISABLED to prevent OOM during sampling
+                every_n=999999,  # Effectively disabled by setting to very large number
+                save_s3=False,
             ),
             every_n_sample_ema=dict(
-                enabled=False,  # DISABLED to prevent OOM during sampling
+                every_n=999999,  # Effectively disabled by setting to very large number
+                save_s3=False,
             ),
             wandb=dict(
                 save_s3=False,
