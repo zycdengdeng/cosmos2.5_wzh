@@ -41,7 +41,7 @@ def get_rgbcloud_multiview_dataset(is_train=True):
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
         state_t=8,
-        num_frames=29,
+        num_frames=21,  # REDUCED from 29 to 21 to save memory (7 cameras x 21 frames)
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),
@@ -55,8 +55,8 @@ def get_rgbcloud_multiview_dataset(is_train=True):
         sampler=L(get_sampler)(dataset=dataset),
         batch_size=1,
         drop_last=True,
-        num_workers=8,
-        prefetch_factor=2,
+        num_workers=4,  # REDUCED from 8 to 4 to save CPU memory
+        prefetch_factor=1,  # REDUCED from 2 to 1 to save CPU memory
         pin_memory=True,
     )
 
@@ -90,7 +90,7 @@ def get_depthsparse_multiview_dataset(is_train=True):
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
         state_t=8,
-        num_frames=29,
+        num_frames=21,  # REDUCED from 29 to 21 to save memory (7 cameras x 21 frames)
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),
@@ -104,8 +104,8 @@ def get_depthsparse_multiview_dataset(is_train=True):
         sampler=L(get_sampler)(dataset=dataset),
         batch_size=1,
         drop_last=True,
-        num_workers=8,
-        prefetch_factor=2,
+        num_workers=4,  # REDUCED from 8 to 4 to save CPU memory
+        prefetch_factor=1,  # REDUCED from 2 to 1 to save CPU memory
         pin_memory=True,
     )
 
