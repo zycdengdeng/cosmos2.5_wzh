@@ -55,19 +55,17 @@ rgbcloud_posttrain = dict(
                 save_s3=False,
             ),
             iter_speed=dict(
-                hit_thres=200,
+                hit_thres=50,  # REDUCED from 200 to 50 to avoid long warmup
                 save_s3=False,
             ),
             device_monitor=dict(
                 save_s3=False,
             ),
             every_n_sample_reg=dict(
-                every_n=500,
-                save_s3=False,
+                enabled=False,  # DISABLED to prevent OOM during sampling
             ),
             every_n_sample_ema=dict(
-                every_n=500,
-                save_s3=False,
+                enabled=False,  # DISABLED to prevent OOM during sampling
             ),
             wandb=dict(
                 save_s3=False,
@@ -133,19 +131,17 @@ depthsparse_posttrain = dict(
                 save_s3=False,
             ),
             iter_speed=dict(
-                hit_thres=200,
+                hit_thres=50,  # REDUCED from 200 to 50 to avoid long warmup
                 save_s3=False,
             ),
             device_monitor=dict(
                 save_s3=False,
             ),
             every_n_sample_reg=dict(
-                every_n=500,
-                save_s3=False,
+                enabled=False,  # DISABLED to prevent OOM during sampling
             ),
             every_n_sample_ema=dict(
-                every_n=500,
-                save_s3=False,
+                enabled=False,  # DISABLED to prevent OOM during sampling
             ),
             wandb=dict(
                 save_s3=False,
