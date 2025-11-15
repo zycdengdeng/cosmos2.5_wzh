@@ -31,6 +31,9 @@ from cosmos_transfer2._src.transfer2.configs.vid2vid_transfer.defaults.condition
 from cosmos_transfer2._src.transfer2.configs.vid2vid_transfer.defaults.dataloader import (
     register_training_and_val_data,
 )
+from cosmos_transfer2._src.transfer2.configs.vid2vid_transfer.defaults.segmented_dataloader import (
+    register_segmented_multiview_dataloader,
+)
 from cosmos_transfer2._src.transfer2.configs.vid2vid_transfer.defaults.model import register_model
 from cosmos_transfer2._src.transfer2.configs.vid2vid_transfer.defaults.net import register_net
 
@@ -84,6 +87,7 @@ def make_config() -> Config:
 
     # Call this function to register config groups for advanced overriding. the order follows the default config groups
     register_training_and_val_data()
+    register_segmented_multiview_dataloader()
     register_optimizer()
     register_scheduler()
     register_model()
