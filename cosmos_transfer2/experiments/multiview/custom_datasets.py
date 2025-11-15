@@ -40,8 +40,8 @@ def get_rgbcloud_multiview_dataset(is_train=True):
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/RGBCloud",
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
-        state_t=8,
-        num_frames=10,  # Each segment is 10 frames (1 second @ 10fps)
+        state_t=3,  # state_t=3 -> expected_frames=(3-1)*4+1=9
+        num_frames=9,  # 9 frames = 0.9 seconds @ 10fps
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),
@@ -89,8 +89,8 @@ def get_depthsparse_multiview_dataset(is_train=True):
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/depthsparse",
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
-        state_t=8,
-        num_frames=10,  # Each segment is 10 frames (1 second @ 10fps)
+        state_t=3,  # state_t=3 -> expected_frames=(3-1)*4+1=9
+        num_frames=9,  # 9 frames = 0.9 seconds @ 10fps
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),

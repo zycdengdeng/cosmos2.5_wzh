@@ -227,11 +227,11 @@ def main():
     """Verify both datasets."""
     dataset_root = "/mnt/zihanw/cosmos-transfer2.5/datasets"
 
-    # Verify RGBCloud
-    verify_dataset(dataset_root, "RGBCloud", expected_frames=10)
+    # Verify RGBCloud (9 frames for state_t=3)
+    verify_dataset(dataset_root, "RGBCloud", expected_frames=9)
 
-    # Verify DepthSparse
-    verify_dataset(dataset_root, "DepthSparse", expected_frames=10)
+    # Verify DepthSparse (9 frames for state_t=3)
+    verify_dataset(dataset_root, "DepthSparse", expected_frames=9)
 
     print("\n✅ Verification complete!\n")
 
