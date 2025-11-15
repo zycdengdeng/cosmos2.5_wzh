@@ -7,23 +7,26 @@ Input structure:
   guidence/{scene}_90frames_1280x720/color_segments/{camera}/{camera}_color_seg{N}.mp4
   guidence/{scene}_90frames_1280x720/depth_segments/{camera}/{camera}_depth_seg{N}.mp4
 
-Output structure (RGBCloud):
-  datasets/RGBCloud/{scene}_seg{N}/
-    {camera_name}/
-      video.mp4  (GT)
-      control_input_hdmap_bbox.mp4  (color guidance)
-
-Output structure (DepthSparse):
-  datasets/DepthSparse/{scene}_seg{N}/
-    {camera_name}/
-      video.mp4  (GT)
-      control_input_hdmap_bbox.mp4  (depth guidance)
+Output structure (expected by MultiviewTransferDataset):
+  datasets/RGBCloud/
+    videos/
+      {camera_full_name}/
+        {scene}_seg{N}.mp4
+        ...
+    control_input_hdmap_bbox/
+      {camera_full_name}/
+        {scene}_seg{N}.mp4
+        ...
+    captions/
+      {front_camera_full_name}/
+        {scene}_seg{N}.json
+        ...
 """
 
+import json
 import os
 import shutil
 from pathlib import Path
-from typing import Dict
 
 # Camera name mapping from abbreviated to full name
 CAMERA_MAPPING = {
@@ -36,6 +39,15 @@ CAMERA_MAPPING = {
     "RN": "ftheta_camera_rear_tele_30fov",
 }
 
+# Default caption for all videos
+DEFAULT_CAPTION = (
+    "This multi-camera perspective captures a drive along a multi-lane urban freeway during the daytime "
+    "under a hazy or partly cloudy sky. The vehicle travels in one of the right lanes, flanked on one side "
+    "by a high retaining wall featuring a concrete base and a brown, brick-patterned upper section with some "
+    "climbing vines, and on the other side by a concrete median barrier."
+)
+
+
 def create_dataset(
     data_root: str,
     output_root: str,
@@ -43,7 +55,7 @@ def create_dataset(
     control_type: str,  # "color" or "depth"
 ):
     """
-    Create training dataset from segmented videos.
+    Create training dataset from segmented videos in MultiviewTransferDataset format.
 
     Args:
         data_root: Root directory containing GT and guidence folders
@@ -56,6 +68,20 @@ def create_dataset(
 
     gt_root = data_root / "GT"
     guidance_root = data_root / "guidence"
+
+    # Create output directory structure
+    videos_dir = output_root / "videos"
+    control_dir = output_root / "control_input_hdmap_bbox"
+    captions_dir = output_root / "captions"
+
+    # Create camera subdirectories
+    for camera_full_name in CAMERA_MAPPING.values():
+        (videos_dir / camera_full_name).mkdir(parents=True, exist_ok=True)
+        (control_dir / camera_full_name).mkdir(parents=True, exist_ok=True)
+
+    # Create caption directory for front camera
+    front_camera = "ftheta_camera_front_wide_120fov"
+    (captions_dir / front_camera).mkdir(parents=True, exist_ok=True)
 
     # Find all scene directories
     scene_dirs = sorted([d for d in gt_root.iterdir() if d.is_dir()])
@@ -91,24 +117,18 @@ def create_dataset(
             continue
 
         # Process each camera
-        camera_dirs = sorted([d for d in gt_segments.iterdir() if d.is_dir()])
-
-        for camera_dir in camera_dirs:
-            camera_abbr = camera_dir.name
-            camera_full_name = CAMERA_MAPPING.get(camera_abbr)
-
-            if not camera_full_name:
-                print(f"  WARNING: Unknown camera abbreviation: {camera_abbr}")
-                continue
-
-            # Find all segment files for this camera
+        for camera_abbr, camera_full_name in CAMERA_MAPPING.items():
             gt_camera_dir = gt_segments / camera_abbr
             control_camera_dir = control_segments / camera_abbr
 
+            if not gt_camera_dir.exists():
+                print(f"  WARNING: GT camera dir not found: {gt_camera_dir}")
+                continue
             if not control_camera_dir.exists():
                 print(f"  WARNING: Control camera dir not found: {control_camera_dir}")
                 continue
 
+            # Process all segments for this camera
             gt_segments_files = sorted(gt_camera_dir.glob(f"{camera_abbr}_GT_seg*.mp4"))
 
             for gt_file in gt_segments_files:
@@ -122,30 +142,33 @@ def create_dataset(
                     print(f"  WARNING: Control file not found: {control_file}")
                     continue
 
-                # Create output directory structure
-                sample_name = f"{scene_id}_seg{seg_num}"
-                output_sample_dir = output_root / sample_name / camera_full_name
-                output_sample_dir.mkdir(parents=True, exist_ok=True)
+                # Output filenames: {scene}_seg{N}.mp4
+                output_filename = f"{scene_id}_seg{seg_num}.mp4"
 
-                # Copy files
-                output_video = output_sample_dir / "video.mp4"
-                output_control = output_sample_dir / "control_input_hdmap_bbox.mp4"
-
+                # Copy GT video
+                output_video = videos_dir / camera_full_name / output_filename
                 if not output_video.exists():
                     shutil.copy2(gt_file, output_video)
+
+                # Copy control video
+                output_control = control_dir / camera_full_name / output_filename
                 if not output_control.exists():
                     shutil.copy2(control_file, output_control)
 
-                total_samples += 1
+                # Create caption (only for front camera, once per sample)
+                if camera_full_name == front_camera:
+                    caption_file = captions_dir / front_camera / f"{scene_id}_seg{seg_num}.json"
+                    if not caption_file.exists():
+                        caption_data = {"caption": DEFAULT_CAPTION}
+                        with open(caption_file, "w") as f:
+                            json.dump(caption_data, f, indent=2)
+                    total_samples += 1
 
         print(f"  Completed scene {scene_id}")
 
-    # Calculate total samples (divide by 7 cameras to get actual sample count)
-    num_samples = total_samples // 7
     print(f"\n{'='*60}")
     print(f"Dataset creation complete!")
-    print(f"Total files created: {total_samples}")
-    print(f"Total training samples: {num_samples} (each with 7 cameras)")
+    print(f"Total training samples: {total_samples}")
     print(f"Output location: {output_root}")
     print(f"{'='*60}\n")
 
@@ -176,10 +199,10 @@ def main():
     print("\n✅ All datasets created successfully!\n")
     print("Next steps:")
     print("1. Verify dataset structure:")
-    print(f"   ls -R {output_root}/RGBCloud | head -50")
-    print(f"   ls -R {output_root}/DepthSparse | head -50")
+    print(f"   ls {output_root}/RGBCloud/videos/ftheta_camera_front_wide_120fov/ | head -10")
+    print(f"   ls {output_root}/RGBCloud/control_input_hdmap_bbox/ftheta_camera_front_wide_120fov/ | head -10")
     print("\n2. Check a sample video:")
-    print(f"   ffprobe {output_root}/RGBCloud/002_seg01/ftheta_camera_front_wide_120fov/video.mp4")
+    print(f"   ffprobe {output_root}/RGBCloud/videos/ftheta_camera_front_wide_120fov/002_seg01.mp4")
     print("\n3. Start training:")
     print("   bash train_rgbcloud.sh")
 
