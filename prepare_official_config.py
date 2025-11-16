@@ -153,7 +153,8 @@ def main():
 
             for camera_abbr, camera_full in CAMERA_MAPPING.items():
                 tasks.append((scene_id, camera_abbr, camera_full,
-                            gt_segments, control_segments,
+                            gt_segments / camera_abbr,  # Add camera subdirectory
+                            control_segments / camera_abbr,  # Add camera subdirectory
                             output_videos, output_control))
 
         # Process in parallel
