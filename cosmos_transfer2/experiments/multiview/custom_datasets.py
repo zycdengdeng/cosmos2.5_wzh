@@ -40,8 +40,8 @@ def get_rgbcloud_multiview_dataset(is_train=True):
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/RGBCloud",
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
-        state_t=3,  # state_t=3 -> expected_frames=(3-1)*4+1=9
-        num_frames=9,  # 9 frames = 0.9 seconds @ 10fps
+        state_t=6,  # state_t=6 -> expected_frames=(6-1)*4+1=21
+        num_frames=21,  # 21 frames = 2.1 seconds @ 10fps
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),
@@ -55,8 +55,8 @@ def get_rgbcloud_multiview_dataset(is_train=True):
         sampler=L(get_sampler)(dataset=dataset),
         batch_size=1,
         drop_last=True,
-        num_workers=6,  # Increased from 4 to 6 for better GPU feeding
-        prefetch_factor=2,  # Restored to 2 for smoother data pipeline
+        num_workers=4,  # Reduced to 4 to avoid data loading bottleneck
+        prefetch_factor=2,
         pin_memory=True,
     )
 
@@ -89,8 +89,8 @@ def get_depthsparse_multiview_dataset(is_train=True):
         dataset_dir="/mnt/zihanw/cosmos-transfer2.5/datasets/depthsparse",
         hint_key="control_input_hdmap_bbox",  # Must match directory name
         resolution="720",
-        state_t=3,  # state_t=3 -> expected_frames=(3-1)*4+1=9
-        num_frames=9,  # 9 frames = 0.9 seconds @ 10fps
+        state_t=6,  # state_t=6 -> expected_frames=(6-1)*4+1=21
+        num_frames=21,  # 21 frames = 2.1 seconds @ 10fps
         sequence_interval=1,
         camera_keys=camera_keys,
         video_size=(704, 1280),
@@ -104,8 +104,8 @@ def get_depthsparse_multiview_dataset(is_train=True):
         sampler=L(get_sampler)(dataset=dataset),
         batch_size=1,
         drop_last=True,
-        num_workers=6,  # Increased from 4 to 6 for better GPU feeding
-        prefetch_factor=2,  # Restored to 2 for smoother data pipeline
+        num_workers=4,  # Reduced to 4 to avoid data loading bottleneck
+        prefetch_factor=2,
         pin_memory=True,
     )
 
