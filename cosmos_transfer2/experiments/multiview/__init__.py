@@ -13,3 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Import custom modules
+from cosmos_transfer2.experiments.multiview import custom_conditioners, custom_datasets, custom_experiments
+
+# Register custom configurations
+custom_conditioners.register_custom_conditioners()
+custom_datasets.register_custom_datasets()
